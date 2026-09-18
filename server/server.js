@@ -58,8 +58,9 @@ app.use('/uploads', express.static('public/uploads'));
 // Connect to Database (gracefully continues if DB is unavailable)
 connectDB();
 
-// API Routes
+// API Routes (supports both /api prefix and root paths like /auth/login)
 app.use('/api', apiRoutes);
+app.use(apiRoutes);
 
 // Error Handling Middleware
 app.use(notFound);

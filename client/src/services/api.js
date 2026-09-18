@@ -3,9 +3,12 @@
  * Standardized error handling, network failure recovery, and development fallbacks.
  */
 
-const BASE_URL =
+const rawApiUrl =
   (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_URL) ||
   'http://localhost:5000/api';
+
+const cleanBaseUrl = rawApiUrl.replace(/\/+$/, '');
+const BASE_URL = cleanBaseUrl.endsWith('/api') ? cleanBaseUrl : `${cleanBaseUrl}/api`;
 
 export class ApiError extends Error {
   constructor(message, status = 500, data = null) {

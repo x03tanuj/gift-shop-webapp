@@ -3,9 +3,12 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext(null);
 
-const API_URL =
+const rawApiUrl =
   (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_URL) ||
   'http://localhost:5000/api';
+
+const cleanApiUrl = rawApiUrl.replace(/\/+$/, '');
+const API_URL = cleanApiUrl.endsWith('/api') ? cleanApiUrl : `${cleanApiUrl}/api`;
 
 /**
  * Authentication Provider for the Admin application.
@@ -23,8 +26,16 @@ export function AuthProvider({ children }) {
     const checkSession = async () => {
       try {
         setLoading(true);
+        const token =
+          typeof localStorage !== 'undefined'
+            ? localStorage.getItem('admin_token')
+            : null;
+
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
         const res = await fetch(`${API_URL}/auth/me`, {
           credentials: 'include',
+          headers,
         });
 
         if (res.ok) {
@@ -80,6 +91,10 @@ export function AuthProvider({ children }) {
         throw new Error(errorMsg);
       }
 
+      if (data.token && typeof localStorage !== 'undefined') {
+        localStorage.setItem('admin_token', data.token);
+      }
+
       setUser(data.user);
       return data.user;
     } catch (err) {
@@ -94,13 +109,23 @@ export function AuthProvider({ children }) {
    */
   const logout = async () => {
     try {
+      const token =
+        typeof localStorage !== 'undefined'
+          ? localStorage.getItem('admin_token')
+          : null;
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
       await fetch(`${API_URL}/auth/logout`, {
         method: 'POST',
+        headers,
         credentials: 'include',
       });
     } catch (err) {
       console.warn('Logout error:', err.message);
     } finally {
+      if (typeof localStorage !== 'undefined') {
+        localStorage.removeItem('admin_token');
+      }
       setUser(null);
       setError(null);
     }

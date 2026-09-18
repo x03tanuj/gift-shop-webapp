@@ -3,19 +3,33 @@
  * Standardized authenticated fetch client with token injection and error handling.
  */
 
-const BASE_URL =
+const rawApiUrl =
   (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_URL) ||
   'http://localhost:5000/api';
+
+const cleanBaseUrl = rawApiUrl.replace(/\/+$/, '');
+const BASE_URL = cleanBaseUrl.endsWith('/api') ? cleanBaseUrl : `${cleanBaseUrl}/api`;
 
 async function request(endpoint, options = {}) {
   const url = `${BASE_URL.replace(/\/+$/, '')}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
 
+  const token =
+    typeof localStorage !== 'undefined'
+      ? localStorage.getItem('admin_token')
+      : null;
+
+  const headers = {
+    ...options.headers,
+  };
+
+  if (token && !headers['Authorization']) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+
   const config = {
     credentials: 'include',
     ...options,
-    headers: {
-      ...options.headers,
-    },
+    headers,
   };
 
   // If body is plain JSON object and headers don't have Content-Type, add it
