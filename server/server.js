@@ -20,19 +20,24 @@ if (process.env.NODE_ENV === 'development') {
 
 // Middleware: CORS configured to allow client and admin origins with credentials
 const allowedOrigins = [
-  process.env.CLIENT_URL || 'http://localhost:5173',
-  process.env.ADMIN_URL || 'http://localhost:5174',
+  process.env.CLIENT_URL,
+  process.env.ADMIN_URL,
+  ...(process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : []),
   'http://localhost:5173',
   'http://localhost:5174',
   'http://127.0.0.1:5173',
   'http://127.0.0.1:5174',
-];
+  'https://gift-shop-webapp-rho.vercel.app',
+  'https://gift-shop-webapp-qw5r.vercel.app',
+]
+  .filter(Boolean)
+  .flatMap((u) => u.split(',').map((item) => item.trim().replace(/\/$/, '')));
 
 app.use(
   cors({
     origin: (origin, callback) => {
       // Allow requests with no origin (e.g. curl, server-to-server, Postman)
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin || allowedOrigins.includes(origin.replace(/\/$/, ''))) {
         callback(null, true);
       } else {
         callback(new Error(`Origin ${origin} not allowed by CORS`));
