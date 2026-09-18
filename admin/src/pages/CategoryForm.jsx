@@ -403,7 +403,7 @@ export default function CategoryForm() {
                   border: '1px solid #cbd5e1',
                 }}
                 onError={(e) => {
-                  e.target.src = 'https://via.placeholder.com/90?text=Broken+Link';
+                  e.target.src = 'https://placehold.co/90x90/f1f5f9/64748b?text=Broken+Link';
                 }}
               />
               <div>

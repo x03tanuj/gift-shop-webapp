@@ -641,7 +641,7 @@ export default function ProductForm() {
                       alt={`Product preview ${idx + 1}`}
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                       onError={(e) => {
-                        e.target.src = 'https://via.placeholder.com/100?text=Preview';
+                        e.target.src = 'https://placehold.co/100x100/f1f5f9/64748b?text=Preview';
                       }}
                     />
                     {idx === 0 && (

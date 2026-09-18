@@ -84,7 +84,7 @@ export default function CategoryGrid() {
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 loading="lazy"
                 onError={(e) => {
-                  e.currentTarget.src = 'https://via.placeholder.com/300x400?text=Curated+Collection';
+                  e.currentTarget.src = 'https://placehold.co/300x400/f5f5f4/78350f?text=Curated+Collection';
                 }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>

@@ -8,11 +8,11 @@ export const mockProducts = [
     slug: 'brass-diya-honey-hamper',
     price: 2450,
     image:
-      'https://lh3.googleusercontent.com/aida/AEtjO1W5kAvD_2-TLwXQ4_5OajRbd6uLil9N4pluOUa76INdhQxc_GI9W9gO4SaMQ2qEna84LfPSGm8Sla7bqsuRSvBZcY20GxCdGVyGK8fFABe22TvFz4OtkKHKIqqe7BMv9Qw-gJ8Az0xofBnMGgxpGSAberBpx-GSAL2djwUo-yZ7RGSuP_D63Y39tpZ2M3zgcYyR0VU70vbr2yEMMPpX-24k1VRMZlqQoSkpPug_6PMVakwavAq3Ft6YX8U',
+      'https://images.unsplash.com/photo-1605647540924-852290f6b0d5?auto=format&fit=crop&w=800&q=80',
     gallery: [
-      'https://lh3.googleusercontent.com/aida/AEtjO1W5kAvD_2-TLwXQ4_5OajRbd6uLil9N4pluOUa76INdhQxc_GI9W9gO4SaMQ2qEna84LfPSGm8Sla7bqsuRSvBZcY20GxCdGVyGK8fFABe22TvFz4OtkKHKIqqe7BMv9Qw-gJ8Az0xofBnMGgxpGSAberBpx-GSAL2djwUo-yZ7RGSuP_D63Y39tpZ2M3zgcYyR0VU70vbr2yEMMPpX-24k1VRMZlqQoSkpPug_6PMVakwavAq3Ft6YX8U',
-      'https://lh3.googleusercontent.com/aida/AEtjO1VxrW2IGAsJ3iRk56xOlTkMhF-fCWiAgSkbh-v1qNH5i-I8-XdvWHpCBUBG-20Ebw9VTLI5LD-QPkO2OEfi9_c-y8RAhjwIB_vxgww6BPmtV2c3HLp7VuUb_j3XcjDMbRvO69BbnWO_Hkl3Jrncjk8FSYtl1yYUSzcZkvgd5fIkWO0f54bms0ImhvF7adSdmefkgdPcisjEkJNb4RkK001gZI-_rB5m9DjBnrmQpjT8wgJ8aDU26hs92uk',
-      'https://lh3.googleusercontent.com/aida/AEtjO1XGlFZ-X-CDuyD1Okj78mn01TAruaIk1arnxZPDFQCwYuiIPevV1ZS5F-1U5CZXmzKXVjkEBVxQd3wDLIV1HuoNZEG3T4S4GIC7ajpFlcrTGPdEDglCeiRDcLzqIR23rYD4Q7pidD59TUJWq5cnbkN9Apf8EOMhrqtebYbN-1xOQSwJ99cMphSsc3l1I49WzSFP5jd4E7Jo9PFedC_IeVPveCFo8E93yrtdBqWXYTrLh8TjtQhXJ81nXYY',
+      'https://images.unsplash.com/photo-1605647540924-852290f6b0d5?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80',
     ],
     category: 'brass-bell-metal',
     categoryName: 'Brass & Bell Metal',
@@ -40,10 +40,10 @@ export const mockProducts = [
     slug: 'pure-copper-bottle-tumbler-set',
     price: 3200,
     image:
-      'https://lh3.googleusercontent.com/aida/AEtjO1V8dy1HooBRZvHfFh6kcm8BnndNhMLatRRymlYZIh9yiyZ7TFNt9Y7wUMWpJcbEZmC26tMrxj9dRNTgj7l9AbUXA9hch3uawUSoLl3sVAT54kyqygnOQ8CaN7iirKUombU4o7g60V5kVsPtftRMvCuFIyQx0ItH0RD6FoFgiEjb1l9s7E2wDg0Pec2_kunjOf69MQ2rkWDB6jJ4nuuALGuW7uQ3HGy9LixGdRcq4jxF7oESi3wcsmdW0Ts',
+      'https://images.unsplash.com/photo-1610725664285-7c57e6eeac3f?auto=format&fit=crop&w=800&q=80',
     gallery: [
-      'https://lh3.googleusercontent.com/aida/AEtjO1V8dy1HooBRZvHfFh6kcm8BnndNhMLatRRymlYZIh9yiyZ7TFNt9Y7wUMWpJcbEZmC26tMrxj9dRNTgj7l9AbUXA9hch3uawUSoLl3sVAT54kyqygnOQ8CaN7iirKUombU4o7g60V5kVsPtftRMvCuFIyQx0ItH0RD6FoFgiEjb1l9s7E2wDg0Pec2_kunjOf69MQ2rkWDB6jJ4nuuALGuW7uQ3HGy9LixGdRcq4jxF7oESi3wcsmdW0Ts',
-      'https://lh3.googleusercontent.com/aida/AEtjO1VxrW2IGAsJ3iRk56xOlTkMhF-fCWiAgSkbh-v1qNH5i-I8-XdvWHpCBUBG-20Ebw9VTLI5LD-QPkO2OEfi9_c-y8RAhjwIB_vxgww6BPmtV2c3HLp7VuUb_j3XcjDMbRvO69BbnWO_Hkl3Jrncjk8FSYtl1yYUSzcZkvgd5fIkWO0f54bms0ImhvF7adSdmefkgdPcisjEkJNb4RkK001gZI-_rB5m9DjBnrmQpjT8wgJ8aDU26hs92uk',
+      'https://images.unsplash.com/photo-1610725664285-7c57e6eeac3f?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80',
     ],
     category: 'ayurvedic-copperware',
     categoryName: 'Ayurvedic Copperware',
@@ -71,10 +71,10 @@ export const mockProducts = [
     slug: 'royal-silk-keepsake-trunk',
     price: 1850,
     image:
-      'https://lh3.googleusercontent.com/aida/AEtjO1X3sQW3Ur3KWmnkiZ5kgn_Z6YV_vXtl7nMJ528ZVULHUWd8WfQtwsHydHM7xzRH-kuk67w8juF2KAf2QDe2JFPBCFJ2X76ozKH8xUEFevSCkdU1-MmPZuY0cVI2yb9c-y8o94Vm6GfsdzFHUYHamXUGDixo0hWP-u7qiaMwmfUx8i_z78eaP3181mjwVlgoKfLHk4HMKtFvAnuMp5YzaGIgeht6p_O-x2lbemiayNh_qvPyHjkuqdZphBk',
+      'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80',
     gallery: [
-      'https://lh3.googleusercontent.com/aida/AEtjO1X3sQW3Ur3KWmnkiZ5kgn_Z6YV_vXtl7nMJ528ZVULHUWd8WfQtwsHydHM7xzRH-kuk67w8juF2KAf2QDe2JFPBCFJ2X76ozKH8xUEFevSCkdU1-MmPZuY0cVI2yb9c-y8o94Vm6GfsdzFHUYHamXUGDixo0hWP-u7qiaMwmfUx8i_z78eaP3181mjwVlgoKfLHk4HMKtFvAnuMp5YzaGIgeht6p_O-x2lbemiayNh_qvPyHjkuqdZphBk',
-      'https://lh3.googleusercontent.com/aida/AEtjO1VxrW2IGAsJ3iRk56xOlTkMhF-fCWiAgSkbh-v1qNH5i-I8-XdvWHpCBUBG-20Ebw9VTLI5LD-QPkO2OEfi9_c-y8RAhjwIB_vxgww6BPmtV2c3HLp7VuUb_j3XcjDMbRvO69BbnWO_Hkl3Jrncjk8FSYtl1yYUSzcZkvgd5fIkWO0f54bms0ImhvF7adSdmefkgdPcisjEkJNb4RkK001gZI-_rB5m9DjBnrmQpjT8wgJ8aDU26hs92uk',
+      'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
     ],
     category: 'silk-velvet',
     categoryName: 'Silk & Velvet Keepsakes',
@@ -102,10 +102,10 @@ export const mockProducts = [
     slug: 'botanical-soy-wax-diya-candles',
     price: 1290,
     image:
-      'https://lh3.googleusercontent.com/aida/AEtjO1XGlFZ-X-CDuyD1Okj78mn01TAruaIk1arnxZPDFQCwYuiIPevV1ZS5F-1U5CZXmzKXVjkEBVxQd3wDLIV1HuoNZEG3T4S4GIC7ajpFlcrTGPdEDglCeiRDcLzqIR23rYD4Q7pidD59TUJWq5cnbkN9Apf8EOMhrqtebYbN-1xOQSwJ99cMphSsc3l1I49WzSFP5jd4E7Jo9PFedC_IeVPveCFo8E93yrtdBqWXYTrLh8TjtQhXJ81nXYY',
+      'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80',
     gallery: [
-      'https://lh3.googleusercontent.com/aida/AEtjO1XGlFZ-X-CDuyD1Okj78mn01TAruaIk1arnxZPDFQCwYuiIPevV1ZS5F-1U5CZXmzKXVjkEBVxQd3wDLIV1HuoNZEG3T4S4GIC7ajpFlcrTGPdEDglCeiRDcLzqIR23rYD4Q7pidD59TUJWq5cnbkN9Apf8EOMhrqtebYbN-1xOQSwJ99cMphSsc3l1I49WzSFP5jd4E7Jo9PFedC_IeVPveCFo8E93yrtdBqWXYTrLh8TjtQhXJ81nXYY',
-      'https://lh3.googleusercontent.com/aida/AEtjO1W5kAvD_2-TLwXQ4_5OajRbd6uLil9N4pluOUa76INdhQxc_GI9W9gO4SaMQ2qEna84LfPSGm8Sla7bqsuRSvBZcY20GxCdGVyGK8fFABe22TvFz4OtkKHKIqqe7BMv9Qw-gJ8Az0xofBnMGgxpGSAberBpx-GSAL2djwUo-yZ7RGSuP_D63Y39tpZ2M3zgcYyR0VU70vbr2yEMMPpX-24k1VRMZlqQoSkpPug_6PMVakwavAq3Ft6YX8U',
+      'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1605647540924-852290f6b0d5?auto=format&fit=crop&w=800&q=80',
     ],
     category: 'gourmet-botanicals',
     categoryName: 'Gourmet & Botanicals',
@@ -132,9 +132,10 @@ export const mockProducts = [
     slug: 'brass-ganesha-pooja-thali',
     price: 2800,
     image:
-      'https://lh3.googleusercontent.com/aida/AEtjO1W5kAvD_2-TLwXQ4_5OajRbd6uLil9N4pluOUa76INdhQxc_GI9W9gO4SaMQ2qEna84LfPSGm8Sla7bqsuRSvBZcY20GxCdGVyGK8fFABe22TvFz4OtkKHKIqqe7BMv9Qw-gJ8Az0xofBnMGgxpGSAberBpx-GSAL2djwUo-yZ7RGSuP_D63Y39tpZ2M3zgcYyR0VU70vbr2yEMMPpX-24k1VRMZlqQoSkpPug_6PMVakwavAq3Ft6YX8U',
+      'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80',
     gallery: [
-      'https://lh3.googleusercontent.com/aida/AEtjO1W5kAvD_2-TLwXQ4_5OajRbd6uLil9N4pluOUa76INdhQxc_GI9W9gO4SaMQ2qEna84LfPSGm8Sla7bqsuRSvBZcY20GxCdGVyGK8fFABe22TvFz4OtkKHKIqqe7BMv9Qw-gJ8Az0xofBnMGgxpGSAberBpx-GSAL2djwUo-yZ7RGSuP_D63Y39tpZ2M3zgcYyR0VU70vbr2yEMMPpX-24k1VRMZlqQoSkpPug_6PMVakwavAq3Ft6YX8U',
+      'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1605647540924-852290f6b0d5?auto=format&fit=crop&w=800&q=80',
     ],
     category: 'brass-bell-metal',
     categoryName: 'Brass & Bell Metal',
@@ -161,9 +162,10 @@ export const mockProducts = [
     slug: 'hammered-copper-jug-set',
     price: 3850,
     image:
-      'https://lh3.googleusercontent.com/aida/AEtjO1V8dy1HooBRZvHfFh6kcm8BnndNhMLatRRymlYZIh9yiyZ7TFNt9Y7wUMWpJcbEZmC26tMrxj9dRNTgj7l9AbUXA9hch3uawUSoLl3sVAT54kyqygnOQ8CaN7iirKUombU4o7g60V5kVsPtftRMvCuFIyQx0ItH0RD6FoFgiEjb1l9s7E2wDg0Pec2_kunjOf69MQ2rkWDB6jJ4nuuALGuW7uQ3HGy9LixGdRcq4jxF7oESi3wcsmdW0Ts',
+      'https://images.unsplash.com/photo-1610725664285-7c57e6eeac3f?auto=format&fit=crop&w=800&q=80',
     gallery: [
-      'https://lh3.googleusercontent.com/aida/AEtjO1V8dy1HooBRZvHfFh6kcm8BnndNhMLatRRymlYZIh9yiyZ7TFNt9Y7wUMWpJcbEZmC26tMrxj9dRNTgj7l9AbUXA9hch3uawUSoLl3sVAT54kyqygnOQ8CaN7iirKUombU4o7g60V5kVsPtftRMvCuFIyQx0ItH0RD6FoFgiEjb1l9s7E2wDg0Pec2_kunjOf69MQ2rkWDB6jJ4nuuALGuW7uQ3HGy9LixGdRcq4jxF7oESi3wcsmdW0Ts',
+      'https://images.unsplash.com/photo-1610725664285-7c57e6eeac3f?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80',
     ],
     category: 'ayurvedic-copperware',
     categoryName: 'Ayurvedic Copperware',
@@ -190,9 +192,10 @@ export const mockProducts = [
     slug: 'kashmiri-pashmina-potli-hamper',
     price: 4500,
     image:
-      'https://lh3.googleusercontent.com/aida/AEtjO1X3sQW3Ur3KWmnkiZ5kgn_Z6YV_vXtl7nMJ528ZVULHUWd8WfQtwsHydHM7xzRH-kuk67w8juF2KAf2QDe2JFPBCFJ2X76ozKH8xUEFevSCkdU1-MmPZuY0cVI2yb9c-y8o94Vm6GfsdzFHUYHamXUGDixo0hWP-u7qiaMwmfUx8i_z78eaP3181mjwVlgoKfLHk4HMKtFvAnuMp5YzaGIgeht6p_O-x2lbemiayNh_qvPyHjkuqdZphBk',
+      'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=800&q=80',
     gallery: [
-      'https://lh3.googleusercontent.com/aida/AEtjO1X3sQW3Ur3KWmnkiZ5kgn_Z6YV_vXtl7nMJ528ZVULHUWd8WfQtwsHydHM7xzRH-kuk67w8juF2KAf2QDe2JFPBCFJ2X76ozKH8xUEFevSCkdU1-MmPZuY0cVI2yb9c-y8o94Vm6GfsdzFHUYHamXUGDixo0hWP-u7qiaMwmfUx8i_z78eaP3181mjwVlgoKfLHk4HMKtFvAnuMp5YzaGIgeht6p_O-x2lbemiayNh_qvPyHjkuqdZphBk',
+      'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80',
     ],
     category: 'silk-velvet',
     categoryName: 'Silk & Velvet Keepsakes',
@@ -219,9 +222,10 @@ export const mockProducts = [
     slug: 'kashmir-saffron-wildflower-honey',
     price: 2150,
     image:
-      'https://lh3.googleusercontent.com/aida/AEtjO1XGlFZ-X-CDuyD1Okj78mn01TAruaIk1arnxZPDFQCwYuiIPevV1ZS5F-1U5CZXmzKXVjkEBVxQd3wDLIV1HuoNZEG3T4S4GIC7ajpFlcrTGPdEDglCeiRDcLzqIR23rYD4Q7pidD59TUJWq5cnbkN9Apf8EOMhrqtebYbN-1xOQSwJ99cMphSsc3l1I49WzSFP5jd4E7Jo9PFedC_IeVPveCFo8E93yrtdBqWXYTrLh8TjtQhXJ81nXYY',
+      'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=800&q=80',
     gallery: [
-      'https://lh3.googleusercontent.com/aida/AEtjO1XGlFZ-X-CDuyD1Okj78mn01TAruaIk1arnxZPDFQCwYuiIPevV1ZS5F-1U5CZXmzKXVjkEBVxQd3wDLIV1HuoNZEG3T4S4GIC7ajpFlcrTGPdEDglCeiRDcLzqIR23rYD4Q7pidD59TUJWq5cnbkN9Apf8EOMhrqtebYbN-1xOQSwJ99cMphSsc3l1I49WzSFP5jd4E7Jo9PFedC_IeVPveCFo8E93yrtdBqWXYTrLh8TjtQhXJ81nXYY',
+      'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80',
     ],
     category: 'gourmet-botanicals',
     categoryName: 'Gourmet & Botanicals',
@@ -248,10 +252,10 @@ export const mockProducts = [
     slug: 'brass-urli-floating-diya',
     price: 1950,
     image:
-      'https://lh3.googleusercontent.com/aida/AEtjO1W5kAvD_2-TLwXQ4_5OajRbd6uLil9N4pluOUa76INdhQxc_GI9W9gO4SaMQ2qEna84LfPSGm8Sla7bqsuRSvBZcY20GxCdGVyGK8fFABe22TvFz4OtkKHKIqqe7BMv9Qw-gJ8Az0xofBnMGgxpGSAberBpx-GSAL2djwUo-yZ7RGSuP_D63Y39tpZ2M3zgcYyR0VU70vbr2yEMMPpX-24k1VRMZlqQoSkpPug_6PMVakwavAq3Ft6YX8U',
+      'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80',
     gallery: [
-      'https://lh3.googleusercontent.com/aida/AEtjO1W5kAvD_2-TLwXQ4_5OajRbd6uLil9N4pluOUa76INdhQxc_GI9W9gO4SaMQ2qEna84LfPSGm8Sla7bqsuRSvBZcY20GxCdGVyGK8fFABe22TvFz4OtkKHKIqqe7BMv9Qw-gJ8Az0xofBnMGgxpGSAberBpx-GSAL2djwUo-yZ7RGSuP_D63Y39tpZ2M3zgcYyR0VU70vbr2yEMMPpX-24k1VRMZlqQoSkpPug_6PMVakwavAq3Ft6YX8U',
-      'https://lh3.googleusercontent.com/aida/AEtjO1XGlFZ-X-CDuyD1Okj78mn01TAruaIk1arnxZPDFQCwYuiIPevV1ZS5F-1U5CZXmzKXVjkEBVxQd3wDLIV1HuoNZEG3T4S4GIC7ajpFlcrTGPdEDglCeiRDcLzqIR23rYD4Q7pidD59TUJWq5cnbkN9Apf8EOMhrqtebYbN-1xOQSwJ99cMphSsc3l1I49WzSFP5jd4E7Jo9PFedC_IeVPveCFo8E93yrtdBqWXYTrLh8TjtQhXJ81nXYY',
+      'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1605647540924-852290f6b0d5?auto=format&fit=crop&w=800&q=80',
     ],
     category: 'brass-bell-metal',
     categoryName: 'Brass & Bell Metal',
@@ -279,9 +283,10 @@ export const mockProducts = [
     slug: 'antique-brass-temple-bell',
     price: 2200,
     image:
-      'https://lh3.googleusercontent.com/aida/AEtjO1W5kAvD_2-TLwXQ4_5OajRbd6uLil9N4pluOUa76INdhQxc_GI9W9gO4SaMQ2qEna84LfPSGm8Sla7bqsuRSvBZcY20GxCdGVyGK8fFABe22TvFz4OtkKHKIqqe7BMv9Qw-gJ8Az0xofBnMGgxpGSAberBpx-GSAL2djwUo-yZ7RGSuP_D63Y39tpZ2M3zgcYyR0VU70vbr2yEMMPpX-24k1VRMZlqQoSkpPug_6PMVakwavAq3Ft6YX8U',
+      'https://images.unsplash.com/photo-1605647540924-852290f6b0d5?auto=format&fit=crop&w=800&q=80',
     gallery: [
-      'https://lh3.googleusercontent.com/aida/AEtjO1W5kAvD_2-TLwXQ4_5OajRbd6uLil9N4pluOUa76INdhQxc_GI9W9gO4SaMQ2qEna84LfPSGm8Sla7bqsuRSvBZcY20GxCdGVyGK8fFABe22TvFz4OtkKHKIqqe7BMv9Qw-gJ8Az0xofBnMGgxpGSAberBpx-GSAL2djwUo-yZ7RGSuP_D63Y39tpZ2M3zgcYyR0VU70vbr2yEMMPpX-24k1VRMZlqQoSkpPug_6PMVakwavAq3Ft6YX8U',
+      'https://images.unsplash.com/photo-1605647540924-852290f6b0d5?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80',
     ],
     category: 'brass-bell-metal',
     categoryName: 'Brass & Bell Metal',
@@ -308,9 +313,10 @@ export const mockProducts = [
     slug: 'copper-water-pitcher-velvet-coasters',
     price: 2950,
     image:
-      'https://lh3.googleusercontent.com/aida/AEtjO1V8dy1HooBRZvHfFh6kcm8BnndNhMLatRRymlYZIh9yiyZ7TFNt9Y7wUMWpJcbEZmC26tMrxj9dRNTgj7l9AbUXA9hch3uawUSoLl3sVAT54kyqygnOQ8CaN7iirKUombU4o7g60V5kVsPtftRMvCuFIyQx0ItH0RD6FoFgiEjb1l9s7E2wDg0Pec2_kunjOf69MQ2rkWDB6jJ4nuuALGuW7uQ3HGy9LixGdRcq4jxF7oESi3wcsmdW0Ts',
+      'https://images.unsplash.com/photo-1610725664285-7c57e6eeac3f?auto=format&fit=crop&w=800&q=80',
     gallery: [
-      'https://lh3.googleusercontent.com/aida/AEtjO1V8dy1HooBRZvHfFh6kcm8BnndNhMLatRRymlYZIh9yiyZ7TFNt9Y7wUMWpJcbEZmC26tMrxj9dRNTgj7l9AbUXA9hch3uawUSoLl3sVAT54kyqygnOQ8CaN7iirKUombU4o7g60V5kVsPtftRMvCuFIyQx0ItH0RD6FoFgiEjb1l9s7E2wDg0Pec2_kunjOf69MQ2rkWDB6jJ4nuuALGuW7uQ3HGy9LixGdRcq4jxF7oESi3wcsmdW0Ts',
+      'https://images.unsplash.com/photo-1610725664285-7c57e6eeac3f?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80',
     ],
     category: 'ayurvedic-copperware',
     categoryName: 'Ayurvedic Copperware',
@@ -338,9 +344,10 @@ export const mockProducts = [
     slug: 'copper-tumbler-quartet-gift-casket',
     price: 3400,
     image:
-      'https://lh3.googleusercontent.com/aida/AEtjO1V8dy1HooBRZvHfFh6kcm8BnndNhMLatRRymlYZIh9yiyZ7TFNt9Y7wUMWpJcbEZmC26tMrxj9dRNTgj7l9AbUXA9hch3uawUSoLl3sVAT54kyqygnOQ8CaN7iirKUombU4o7g60V5kVsPtftRMvCuFIyQx0ItH0RD6FoFgiEjb1l9s7E2wDg0Pec2_kunjOf69MQ2rkWDB6jJ4nuuALGuW7uQ3HGy9LixGdRcq4jxF7oESi3wcsmdW0Ts',
+      'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80',
     gallery: [
-      'https://lh3.googleusercontent.com/aida/AEtjO1V8dy1HooBRZvHfFh6kcm8BnndNhMLatRRymlYZIh9yiyZ7TFNt9Y7wUMWpJcbEZmC26tMrxj9dRNTgj7l9AbUXA9hch3uawUSoLl3sVAT54kyqygnOQ8CaN7iirKUombU4o7g60V5kVsPtftRMvCuFIyQx0ItH0RD6FoFgiEjb1l9s7E2wDg0Pec2_kunjOf69MQ2rkWDB6jJ4nuuALGuW7uQ3HGy9LixGdRcq4jxF7oESi3wcsmdW0Ts',
+      'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1610725664285-7c57e6eeac3f?auto=format&fit=crop&w=800&q=80',
     ],
     category: 'ayurvedic-copperware',
     categoryName: 'Ayurvedic Copperware',
@@ -368,9 +375,10 @@ export const mockProducts = [
     slug: 'banarasi-brocade-shagun-box',
     price: 1450,
     image:
-      'https://lh3.googleusercontent.com/aida/AEtjO1X3sQW3Ur3KWmnkiZ5kgn_Z6YV_vXtl7nMJ528ZVULHUWd8WfQtwsHydHM7xzRH-kuk67w8juF2KAf2QDe2JFPBCFJ2X76ozKH8xUEFevSCkdU1-MmPZuY0cVI2yb9c-y8o94Vm6GfsdzFHUYHamXUGDixo0hWP-u7qiaMwmfUx8i_z78eaP3181mjwVlgoKfLHk4HMKtFvAnuMp5YzaGIgeht6p_O-x2lbemiayNh_qvPyHjkuqdZphBk',
+      'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
     gallery: [
-      'https://lh3.googleusercontent.com/aida/AEtjO1X3sQW3Ur3KWmnkiZ5kgn_Z6YV_vXtl7nMJ528ZVULHUWd8WfQtwsHydHM7xzRH-kuk67w8juF2KAf2QDe2JFPBCFJ2X76ozKH8xUEFevSCkdU1-MmPZuY0cVI2yb9c-y8o94Vm6GfsdzFHUYHamXUGDixo0hWP-u7qiaMwmfUx8i_z78eaP3181mjwVlgoKfLHk4HMKtFvAnuMp5YzaGIgeht6p_O-x2lbemiayNh_qvPyHjkuqdZphBk',
+      'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80',
     ],
     category: 'silk-velvet',
     categoryName: 'Silk & Velvet Keepsakes',
@@ -398,9 +406,10 @@ export const mockProducts = [
     slug: 'chanderi-silk-shawl-rose-pouch',
     price: 3600,
     image:
-      'https://lh3.googleusercontent.com/aida/AEtjO1X3sQW3Ur3KWmnkiZ5kgn_Z6YV_vXtl7nMJ528ZVULHUWd8WfQtwsHydHM7xzRH-kuk67w8juF2KAf2QDe2JFPBCFJ2X76ozKH8xUEFevSCkdU1-MmPZuY0cVI2yb9c-y8o94Vm6GfsdzFHUYHamXUGDixo0hWP-u7qiaMwmfUx8i_z78eaP3181mjwVlgoKfLHk4HMKtFvAnuMp5YzaGIgeht6p_O-x2lbemiayNh_qvPyHjkuqdZphBk',
+      'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=800&q=80',
     gallery: [
-      'https://lh3.googleusercontent.com/aida/AEtjO1X3sQW3Ur3KWmnkiZ5kgn_Z6YV_vXtl7nMJ528ZVULHUWd8WfQtwsHydHM7xzRH-kuk67w8juF2KAf2QDe2JFPBCFJ2X76ozKH8xUEFevSCkdU1-MmPZuY0cVI2yb9c-y8o94Vm6GfsdzFHUYHamXUGDixo0hWP-u7qiaMwmfUx8i_z78eaP3181mjwVlgoKfLHk4HMKtFvAnuMp5YzaGIgeht6p_O-x2lbemiayNh_qvPyHjkuqdZphBk',
+      'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80',
     ],
     category: 'silk-velvet',
     categoryName: 'Silk & Velvet Keepsakes',
@@ -427,9 +436,10 @@ export const mockProducts = [
     slug: 'filter-coffee-brass-davarah-hamper',
     price: 1750,
     image:
-      'https://lh3.googleusercontent.com/aida/AEtjO1XGlFZ-X-CDuyD1Okj78mn01TAruaIk1arnxZPDFQCwYuiIPevV1ZS5F-1U5CZXmzKXVjkEBVxQd3wDLIV1HuoNZEG3T4S4GIC7ajpFlcrTGPdEDglCeiRDcLzqIR23rYD4Q7pidD59TUJWq5cnbkN9Apf8EOMhrqtebYbN-1xOQSwJ99cMphSsc3l1I49WzSFP5jd4E7Jo9PFedC_IeVPveCFo8E93yrtdBqWXYTrLh8TjtQhXJ81nXYY',
+      'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80',
     gallery: [
-      'https://lh3.googleusercontent.com/aida/AEtjO1XGlFZ-X-CDuyD1Okj78mn01TAruaIk1arnxZPDFQCwYuiIPevV1ZS5F-1U5CZXmzKXVjkEBVxQd3wDLIV1HuoNZEG3T4S4GIC7ajpFlcrTGPdEDglCeiRDcLzqIR23rYD4Q7pidD59TUJWq5cnbkN9Apf8EOMhrqtebYbN-1xOQSwJ99cMphSsc3l1I49WzSFP5jd4E7Jo9PFedC_IeVPveCFo8E93yrtdBqWXYTrLh8TjtQhXJ81nXYY',
+      'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1605647540924-852290f6b0d5?auto=format&fit=crop&w=800&q=80',
     ],
     category: 'gourmet-botanicals',
     categoryName: 'Gourmet & Botanicals',
@@ -457,9 +467,10 @@ export const mockProducts = [
     slug: 'royal-silver-needle-tea-acacia-honey',
     price: 2650,
     image:
-      'https://lh3.googleusercontent.com/aida/AEtjO1XGlFZ-X-CDuyD1Okj78mn01TAruaIk1arnxZPDFQCwYuiIPevV1ZS5F-1U5CZXmzKXVjkEBVxQd3wDLIV1HuoNZEG3T4S4GIC7ajpFlcrTGPdEDglCeiRDcLzqIR23rYD4Q7pidD59TUJWq5cnbkN9Apf8EOMhrqtebYbN-1xOQSwJ99cMphSsc3l1I49WzSFP5jd4E7Jo9PFedC_IeVPveCFo8E93yrtdBqWXYTrLh8TjtQhXJ81nXYY',
+      'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80',
     gallery: [
-      'https://lh3.googleusercontent.com/aida/AEtjO1XGlFZ-X-CDuyD1Okj78mn01TAruaIk1arnxZPDFQCwYuiIPevV1ZS5F-1U5CZXmzKXVjkEBVxQd3wDLIV1HuoNZEG3T4S4GIC7ajpFlcrTGPdEDglCeiRDcLzqIR23rYD4Q7pidD59TUJWq5cnbkN9Apf8EOMhrqtebYbN-1xOQSwJ99cMphSsc3l1I49WzSFP5jd4E7Jo9PFedC_IeVPveCFo8E93yrtdBqWXYTrLh8TjtQhXJ81nXYY',
+      'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80',
     ],
     category: 'gourmet-botanicals',
     categoryName: 'Gourmet & Botanicals',

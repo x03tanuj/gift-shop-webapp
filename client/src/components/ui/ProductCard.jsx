@@ -52,7 +52,7 @@ export default function ProductCard({
           className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
           onError={(e) => {
-            e.currentTarget.src = 'https://via.placeholder.com/400x300?text=Handcrafted+Creation';
+            e.currentTarget.src = 'https://placehold.co/400x300/f5f5f4/78350f?text=Handcrafted+Creation';
           }}
         />
 

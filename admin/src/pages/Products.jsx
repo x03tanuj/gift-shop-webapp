@@ -286,7 +286,7 @@ export default function Products() {
                 const prodId = product.id || product._id;
                 const isAvail = product.available === true || product.available === 'In Stock';
                 const isMadeToOrder = product.available === 'Made to Order';
-                const imgUrl = product.image || product.images?.[0] || 'https://via.placeholder.com/60';
+                const imgUrl = product.image || product.images?.[0] || 'https://placehold.co/60x60/f1f5f9/64748b?text=Item';
                 const catName = product.category?.name || product.categoryName || 'Uncategorized';
 
                 return (
@@ -310,7 +310,7 @@ export default function Products() {
                           border: '1px solid #e2e8f0',
                         }}
                         onError={(e) => {
-                          e.currentTarget.src = 'https://via.placeholder.com/44?text=Item';
+                          e.currentTarget.src = 'https://placehold.co/44x44/f1f5f9/64748b?text=Item';
                         }}
                       />
                     </td>

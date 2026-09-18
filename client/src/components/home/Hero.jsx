@@ -7,7 +7,7 @@ import Button from '../ui/Button.jsx';
  */
 export default function Hero() {
   const heroImage =
-    'https://lh3.googleusercontent.com/aida/AEtjO1VxrW2IGAsJ3iRk56xOlTkMhF-fCWiAgSkbh-v1qNH5i-I8-XdvWHpCBUBG-20Ebw9VTLI5LD-QPkO2OEfi9_c-y8RAhjwIB_vxgww6BPmtV2c3HLp7VuUb_j3XcjDMbRvO69BbnWO_Hkl3Jrncjk8FSYtl1yYUSzcZkvgd5fIkWO0f54bms0ImhvF7adSdmefkgdPcisjEkJNb4RkK001gZI-_rB5m9DjBnrmQpjT8wgJ8aDU26hs92uk';
+    'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=1200&q=80';
 
   return (
     <section className="relative -mx-4 sm:mx-0 overflow-hidden sm:rounded-2xl shadow-luxury border-b sm:border border-brand-gold/30">

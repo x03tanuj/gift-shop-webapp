@@ -214,7 +214,7 @@ export default function ProductDetails() {
               alt={product.name}
               className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
               onError={(e) => {
-                e.currentTarget.src = 'https://via.placeholder.com/600x600?text=Handcrafted+Creation';
+                e.currentTarget.src = 'https://placehold.co/600x600/f5f5f4/78350f?text=Handcrafted+Creation';
               }}
             />
 
@@ -273,7 +273,7 @@ export default function ProductDetails() {
                       alt={`${product.name} angle ${idx + 1}`}
                       className="w-full h-full object-cover"
                       onError={(e) => {
-                        e.currentTarget.src = 'https://via.placeholder.com/100?text=Preview';
+                        e.currentTarget.src = 'https://placehold.co/100x100/f5f5f4/78350f?text=Preview';
                       }}
                     />
                   </button>

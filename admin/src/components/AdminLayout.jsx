@@ -13,6 +13,13 @@ export default function AdminLayout({ children }) {
     { label: '➕ New Product', path: '/products/new' },
   ];
 
+  const storefrontUrl =
+    import.meta.env.VITE_STOREFRONT_URL ||
+    (typeof window !== 'undefined' &&
+    (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+      ? 'http://localhost:5173'
+      : 'https://gift-shop-webapp-rho.vercel.app');
+
   return (
     <div
       style={{
@@ -41,47 +48,63 @@ export default function AdminLayout({ children }) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
+            gap: '1rem',
             flexWrap: 'wrap',
-            gap: '0.75rem',
           }}
         >
-          {/* Brand Logo */}
-          <Link
-            to="/"
+          {/* Logo / Title */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <span style={{ fontSize: '1.4rem' }}>🏛️</span>
+            <div>
+              <Link
+                to="/"
+                style={{
+                  fontSize: '1rem',
+                  fontWeight: 700,
+                  color: '#0f172a',
+                  textDecoration: 'none',
+                  letterSpacing: '0.04em',
+                }}
+              >
+                SHIVE SHAKTI ENTERPRISES
+              </Link>
+              <div
+                style={{
+                  fontSize: '0.7rem',
+                  color: '#64748b',
+                  fontWeight: 500,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.08em',
+                }}
+              >
+                Store Admin Portal
+              </div>
+            </div>
+          </div>
+
+          {/* Links */}
+          <nav
             style={{
-              textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
               gap: '0.5rem',
-              color: '#0f172a',
+              flexWrap: 'wrap',
             }}
           >
-            <span style={{ fontSize: '1.25rem' }}>🏛️</span>
-            <div>
-              <div style={{ fontWeight: 700, fontSize: '0.95rem', letterSpacing: '-0.01em' }}>
-                SHIVE SHAKTI ENTERPRISES
-              </div>
-              <div style={{ fontSize: '0.7rem', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                Admin Console
-              </div>
-            </div>
-          </Link>
-
-          {/* Nav Links */}
-          <nav style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             {navLinks.map((link) => {
               const isActive =
                 link.path === '/'
                   ? location.pathname === '/'
                   : location.pathname.startsWith(link.path);
+
               return (
                 <Link
                   key={link.path}
                   to={link.path}
                   style={{
                     textDecoration: 'none',
-                    fontSize: '0.825rem',
-                    fontWeight: 600,
+                    fontSize: '0.875rem',
+                    fontWeight: 500,
                     padding: '0.45rem 0.85rem',
                     minHeight: '38px',
                     display: 'inline-flex',
@@ -99,7 +122,7 @@ export default function AdminLayout({ children }) {
             })}
 
             <a
-              href="http://localhost:5173"
+              href={storefrontUrl}
               target="_blank"
               rel="noopener noreferrer"
               style={{

@@ -331,7 +331,7 @@ export default function Categories() {
               {filteredCategories.map((cat) => {
                 const catId = cat.id || cat._id;
                 const count = cat.productCount ?? 0;
-                const imgUrl = cat.image || 'https://via.placeholder.com/60?text=No+Image';
+                const imgUrl = cat.image || 'https://placehold.co/60x60/f1f5f9/64748b?text=No+Image';
 
                 return (
                   <tr
@@ -354,7 +354,7 @@ export default function Categories() {
                           border: '1px solid #e2e8f0',
                         }}
                         onError={(e) => {
-                          e.target.src = 'https://via.placeholder.com/44?text=Category';
+                          e.target.src = 'https://placehold.co/44x44/f1f5f9/64748b?text=Category';
                         }}
                       />
                     </td>
