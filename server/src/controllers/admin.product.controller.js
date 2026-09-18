@@ -123,9 +123,11 @@ export const createProduct = async (req, res, next) => {
     // 2. Slug generation
     const slug = await generateUniqueSlug(name);
 
-    // 3. Normalized images
+    // 3. Normalized images (Maximum 3 images per product)
     const imageList = Array.isArray(images)
-      ? images.filter((url) => typeof url === 'string' && url.trim().length > 0)
+      ? images
+          .filter((url) => typeof url === 'string' && url.trim().length > 0)
+          .slice(0, 3)
       : [];
     const primaryImage = imageList[0] || '';
 
@@ -234,7 +236,9 @@ export const updateProduct = async (req, res, next) => {
       product.personalizable && personalizationNote ? personalizationNote.trim() : null;
 
     if (Array.isArray(images)) {
-      product.images = images.filter((u) => typeof u === 'string' && u.trim().length > 0);
+      product.images = images
+        .filter((u) => typeof u === 'string' && u.trim().length > 0)
+        .slice(0, 3);
       product.image = product.images[0] || '';
     }
 
@@ -280,7 +284,7 @@ export const deleteProduct = async (req, res, next) => {
 
 /**
  * POST /api/admin/products/:id/images
- * Uploads an image to Cloudinary (or local fallback) and stores resulting URL on product.
+ * Uploads one or multiple images (up to max 3 total per product) and stores URLs on product.
  */
 export const uploadProductImage = async (req, res, next) => {
   try {
@@ -294,25 +298,48 @@ export const uploadProductImage = async (req, res, next) => {
       return res.status(404).json({ error: { message: 'Product not found.' } });
     }
 
-    if (!req.file) {
+    const files =
+      Array.isArray(req.files) && req.files.length > 0
+        ? req.files
+        : req.file
+        ? [req.file]
+        : [];
+
+    if (files.length === 0) {
       return res.status(400).json({
-        error: { message: 'No image file uploaded. Please attach a valid image.' },
+        error: { message: 'No image files uploaded. Please attach valid images.' },
       });
     }
 
-    // Process file upload
-    const imageUrl = await processImageUpload(req.file);
-
-    // Append to product images
     if (!product.images) product.images = [];
-    product.images.push(imageUrl);
-    if (!product.image) product.image = imageUrl;
+
+    // Check maximum 3 images limit
+    const availableSlots = Math.max(0, 3 - product.images.length);
+    if (availableSlots === 0) {
+      return res.status(400).json({
+        error: { message: 'This product already has the maximum of 3 photos allowed.' },
+      });
+    }
+
+    const filesToUpload = files.slice(0, availableSlots);
+    const newImageUrls = [];
+
+    for (const f of filesToUpload) {
+      const imageUrl = await processImageUpload(f);
+      product.images.push(imageUrl);
+      newImageUrls.push(imageUrl);
+    }
+
+    if (!product.image && product.images.length > 0) {
+      product.image = product.images[0];
+    }
 
     await product.save();
 
     return res.status(201).json({
-      message: 'Image uploaded successfully.',
-      imageUrl,
+      message: `${filesToUpload.length} photo(s) uploaded successfully.`,
+      imageUrl: newImageUrls[0],
+      newImages: newImageUrls,
       images: product.images,
     });
   } catch (error) {

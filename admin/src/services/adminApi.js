@@ -78,9 +78,13 @@ export const adminApi = {
     request(`/admin/products/${encodeURIComponent(id)}`, {
       method: 'DELETE',
     }),
-  uploadProductImage: (id, file) => {
+  uploadProductImage: (id, fileOrFiles) => {
     const formData = new FormData();
-    formData.append('image', file);
+    if (Array.isArray(fileOrFiles)) {
+      fileOrFiles.forEach((file) => formData.append('images', file));
+    } else if (fileOrFiles) {
+      formData.append('images', fileOrFiles);
+    }
     return request(`/admin/products/${encodeURIComponent(id)}/images`, {
       method: 'POST',
       body: formData,

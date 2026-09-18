@@ -30,10 +30,10 @@ export default function ProductForm() {
   // Specifications (repeatable key-value pairs)
   const [specs, setSpecs] = useState([{ id: '1', key: '', value: '' }]);
 
-  // Images state
+  // Images state (Maximum 3 images total)
+  const MAX_IMAGES = 3;
   const [existingImages, setExistingImages] = useState([]);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [filePreview, setFilePreview] = useState(null);
+  const [queuedFiles, setQueuedFiles] = useState([]); // array of { id, file, preview, name, size }
   const [directImageUrl, setDirectImageUrl] = useState('');
 
   // Status & Feedback state
@@ -81,11 +81,11 @@ export default function ProductForm() {
         setPersonalizable(Boolean(p.personalizable));
         setPersonalizationNote(p.personalizationNote || '');
 
-        // Images
+        // Images (Max 3)
         const imgs = Array.isArray(p.images) && p.images.length > 0 
           ? p.images 
           : (p.image ? [p.image] : []);
-        setExistingImages(imgs);
+        setExistingImages(imgs.slice(0, MAX_IMAGES));
 
         // Details / Specs
         if (p.details && typeof p.details === 'object' && Object.keys(p.details).length > 0) {
@@ -109,14 +109,16 @@ export default function ProductForm() {
     loadProduct();
   }, [id, isEdit]);
 
-  // Clean up object URL on unmount or file change
+  // Clean up object URLs on unmount
   useEffect(() => {
     return () => {
-      if (filePreview && filePreview.startsWith('blob:')) {
-        URL.revokeObjectURL(filePreview);
-      }
+      queuedFiles.forEach((q) => {
+        if (q.preview && q.preview.startsWith('blob:')) {
+          URL.revokeObjectURL(q.preview);
+        }
+      });
     };
-  }, [filePreview]);
+  }, [queuedFiles]);
 
   // Specification helpers
   const handleAddSpec = () => {
@@ -138,20 +140,90 @@ export default function ProductForm() {
     });
   };
 
-  // Image helpers
+  // Image helpers (Max 3 total)
   const handleFileSelect = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
 
-    // Validate size (5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      setErrors((prev) => ({ ...prev, image: 'Image size must be less than 5MB.' }));
+    const currentTotal = existingImages.length + queuedFiles.length;
+    const availableSlots = Math.max(0, MAX_IMAGES - currentTotal);
+
+    if (availableSlots === 0) {
+      setErrors((prev) => ({
+        ...prev,
+        image: `Maximum ${MAX_IMAGES} photos reached. Remove a photo to add a different one.`,
+      }));
+      e.target.value = '';
       return;
     }
 
-    // Validate type
-    if (!file.type.startsWith('image/')) {
-      setErrors((prev) => ({ ...prev, image: 'Only image files (JPG, PNG, WebP, GIF) are allowed.' }));
+    const newFilesToAdd = [];
+    for (const file of files) {
+      if (newFilesToAdd.length >= availableSlots) break;
+
+      // Validate size (5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        setErrors((prev) => ({
+          ...prev,
+          image: `File "${file.name}" exceeds the 5MB limit.`,
+        }));
+        continue;
+      }
+
+      // Validate type
+      if (!file.type.startsWith('image/')) {
+        setErrors((prev) => ({
+          ...prev,
+          image: `File "${file.name}" is not a valid image format.`,
+        }));
+        continue;
+      }
+
+      newFilesToAdd.push({
+        id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        file,
+        preview: URL.createObjectURL(file),
+        name: file.name,
+        size: (file.size / 1024).toFixed(1),
+      });
+    }
+
+    if (newFilesToAdd.length > 0) {
+      setErrors((prev) => {
+        const updated = { ...prev };
+        delete updated.image;
+        return updated;
+      });
+      setQueuedFiles((prev) => [...prev, ...newFilesToAdd]);
+    }
+
+    e.target.value = '';
+  };
+
+  const handleRemoveQueuedFile = (fileId) => {
+    setQueuedFiles((prev) => {
+      const target = prev.find((f) => f.id === fileId);
+      if (target?.preview && target.preview.startsWith('blob:')) {
+        URL.revokeObjectURL(target.preview);
+      }
+      return prev.filter((f) => f.id !== fileId);
+    });
+  };
+
+  const handleRemoveExistingImage = (index) => {
+    setExistingImages((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleAddDirectImageUrl = () => {
+    const trimmed = directImageUrl.trim();
+    if (!trimmed) return;
+
+    const currentTotal = existingImages.length + queuedFiles.length;
+    if (currentTotal >= MAX_IMAGES) {
+      setErrors((prev) => ({
+        ...prev,
+        image: `Maximum ${MAX_IMAGES} photos reached. Remove a photo first.`,
+      }));
       return;
     }
 
@@ -161,40 +233,29 @@ export default function ProductForm() {
       return updated;
     });
 
-    setSelectedFile(file);
-    const previewUrl = URL.createObjectURL(file);
-    setFilePreview(previewUrl);
-  };
-
-  const handleClearSelectedFile = () => {
-    setSelectedFile(null);
-    if (filePreview && filePreview.startsWith('blob:')) {
-      URL.revokeObjectURL(filePreview);
-    }
-    setFilePreview(null);
-  };
-
-  const handleRemoveExistingImage = (index) => {
-    setExistingImages((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const handleAddDirectImageUrl = () => {
-    if (!directImageUrl.trim()) return;
-    setExistingImages((prev) => [...prev, directImageUrl.trim()]);
+    setExistingImages((prev) => [...prev, trimmed]);
     setDirectImageUrl('');
   };
 
   // Instant image upload in edit mode
   const handleInstantUpload = async () => {
-    if (!isEdit || !selectedFile) return;
+    if (!isEdit || queuedFiles.length === 0) return;
 
     try {
       setUploadingDirectly(true);
       setServerError(null);
-      const res = await adminApi.uploadProductImage(id, selectedFile);
-      if (res.imageUrl) {
-        setExistingImages((prev) => [...prev, res.imageUrl]);
-        handleClearSelectedFile();
+      const res = await adminApi.uploadProductImage(
+        id,
+        queuedFiles.map((q) => q.file)
+      );
+      if (res.images) {
+        setExistingImages(res.images.slice(0, MAX_IMAGES));
+        queuedFiles.forEach((q) => {
+          if (q.preview && q.preview.startsWith('blob:')) {
+            URL.revokeObjectURL(q.preview);
+          }
+        });
+        setQueuedFiles([]);
       }
     } catch (err) {
       console.error('Instant upload error:', err);
@@ -276,10 +337,13 @@ export default function ProductForm() {
         productId = createRes.product?.id || createRes.product?._id;
       }
 
-      // If a new image file was queued, upload it now
-      if (selectedFile && productId) {
+      // If new image files were queued, upload them now
+      if (queuedFiles.length > 0 && productId) {
         try {
-          await adminApi.uploadProductImage(productId, selectedFile);
+          await adminApi.uploadProductImage(
+            productId,
+            queuedFiles.map((q) => q.file)
+          );
         } catch (uploadErr) {
           console.warn('Product saved, but image upload encountered an error:', uploadErr);
           // Don't fail the whole operation if product was created, just warn
@@ -597,7 +661,7 @@ export default function ProductForm() {
           </div>
         </div>
 
-        {/* Section 2: Product Images */}
+        {/* Section 2: Product Images (Max 3) */}
         <div
           style={{
             background: '#ffffff',
@@ -607,65 +671,84 @@ export default function ProductForm() {
             boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.04)',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-            <h2 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 600, color: '#0f172a' }}>
-              2. Product Images
-            </h2>
-            <span style={{ fontSize: '0.75rem', color: '#64748b' }}>
-              Supported: JPG, PNG, WebP (Max 5MB)
-            </span>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+            <div>
+              <h2 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 600, color: '#0f172a' }}>
+                2. Product Images
+              </h2>
+              <p style={{ margin: '0.2rem 0 0 0', fontSize: '0.75rem', color: '#64748b' }}>
+                Add up to 3 photos (Photo 1 is storefront Cover; Photos 2 & 3 are gallery angles).
+              </p>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <span
+                style={{
+                  fontSize: '0.75rem',
+                  fontWeight: 600,
+                  padding: '0.25rem 0.65rem',
+                  borderRadius: '9999px',
+                  background: existingImages.length + queuedFiles.length >= MAX_IMAGES ? '#f1f5f9' : '#e0e7ff',
+                  color: existingImages.length + queuedFiles.length >= MAX_IMAGES ? '#475569' : '#4338ca',
+                }}
+              >
+                {existingImages.length + queuedFiles.length} / {MAX_IMAGES} Photos
+              </span>
+            </div>
           </div>
 
           {/* Current Saved Images Gallery */}
           {existingImages.length > 0 && (
             <div style={{ marginBottom: '1.25rem' }}>
-              <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: '#334155', marginBottom: '0.5rem' }}>
-                Active Gallery ({existingImages.length})
-              </label>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                <label style={{ fontSize: '0.8rem', fontWeight: 600, color: '#334155' }}>
+                  Saved Photos ({existingImages.length})
+                </label>
+                <span style={{ fontSize: '0.7rem', color: '#94a3b8' }}>
+                  Order: 1st = Primary Cover, 2nd & 3rd = Gallery Views
+                </span>
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.85rem' }}>
                 {existingImages.map((imgUrl, idx) => (
                   <div
                     key={`${imgUrl}-${idx}`}
                     style={{
                       position: 'relative',
-                      width: '100px',
-                      height: '100px',
+                      width: '120px',
+                      height: '120px',
                       borderRadius: '8px',
-                      border: '1px solid #cbd5e1',
+                      border: idx === 0 ? '2px solid #6366f1' : '1px solid #cbd5e1',
                       overflow: 'hidden',
                       background: '#f8fafc',
                     }}
                   >
                     <img
                       src={imgUrl}
-                      alt={`Product preview ${idx + 1}`}
+                      alt={`Product photo ${idx + 1}`}
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                       onError={(e) => {
-                        e.target.src = 'https://placehold.co/100x100/f1f5f9/64748b?text=Preview';
+                        e.target.src = 'https://placehold.co/120x120/f1f5f9/64748b?text=Preview';
                       }}
                     />
-                    {idx === 0 && (
-                      <span
-                        style={{
-                          position: 'absolute',
-                          bottom: '2px',
-                          left: '2px',
-                          background: 'rgba(15, 23, 42, 0.85)',
-                          color: '#ffffff',
-                          fontSize: '0.625rem',
-                          padding: '0.1rem 0.3rem',
-                          borderRadius: '3px',
-                          fontWeight: 600,
-                        }}
-                      >
-                        Cover
-                      </span>
-                    )}
+                    <span
+                      style={{
+                        position: 'absolute',
+                        bottom: '4px',
+                        left: '4px',
+                        background: idx === 0 ? 'rgba(79, 70, 229, 0.92)' : 'rgba(15, 23, 42, 0.85)',
+                        color: '#ffffff',
+                        fontSize: '0.625rem',
+                        padding: '0.15rem 0.4rem',
+                        borderRadius: '4px',
+                        fontWeight: 600,
+                      }}
+                    >
+                      {idx === 0 ? '★ Cover (Photo 1)' : `Photo ${idx + 1}`}
+                    </span>
                     <button
                       type="button"
                       onClick={() => handleRemoveExistingImage(idx)}
                       title="Remove image"
-                      aria-label={`Remove image ${idx + 1}`}
+                      aria-label={`Remove photo ${idx + 1}`}
                       style={{
                         position: 'absolute',
                         top: '4px',
@@ -674,16 +757,15 @@ export default function ProductForm() {
                         color: '#ffffff',
                         border: 'none',
                         borderRadius: '6px',
-                        width: '36px',
-                        height: '36px',
-                        minWidth: '36px',
-                        minHeight: '36px',
+                        width: '28px',
+                        height: '28px',
                         cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        fontSize: '0.85rem',
+                        fontSize: '0.8rem',
                         fontWeight: 700,
+                        boxShadow: '0 1px 2px rgba(0,0,0,0.2)',
                       }}
                     >
                       ✕
@@ -694,149 +776,222 @@ export default function ProductForm() {
             </div>
           )}
 
-          {/* New Image File Upload Picker */}
-          <div
-            style={{
-              border: '2px dashed #cbd5e1',
-              borderRadius: '8px',
-              padding: '1.25rem',
-              textAlign: 'center',
-              background: '#f8fafc',
-              marginBottom: '1rem',
-            }}
-          >
-            {filePreview ? (
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem' }}>
-                <img
-                  src={filePreview}
-                  alt="Upload preview"
-                  style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '8px', border: '1px solid #cbd5e1' }}
-                />
-                <div style={{ textAlign: 'left' }}>
-                  <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0f172a' }}>
-                    {selectedFile?.name}
-                  </div>
-                  <div style={{ fontSize: '0.75rem', color: '#64748b', margin: '0.2rem 0 0.5rem 0' }}>
-                    {(selectedFile?.size / 1024).toFixed(1)} KB — Ready to upload
-                  </div>
-                  <div style={{ display: 'flex', gap: '0.5rem' }}>
-                    {isEdit && (
-                      <button
-                        type="button"
-                        disabled={uploadingDirectly}
-                        onClick={handleInstantUpload}
-                        style={{
-                          background: '#0f172a',
-                          color: '#fff',
-                          border: 'none',
-                          padding: '0.3rem 0.65rem',
-                          borderRadius: '4px',
-                          fontSize: '0.75rem',
-                          fontWeight: 600,
-                          cursor: 'pointer',
-                        }}
-                      >
-                        {uploadingDirectly ? 'Uploading...' : '⚡ Upload Now'}
-                      </button>
-                    )}
-                    <button
-                      type="button"
-                      onClick={handleClearSelectedFile}
+          {/* Queued Photos Ready for Upload */}
+          {queuedFiles.length > 0 && (
+            <div
+              style={{
+                marginBottom: '1.25rem',
+                background: '#f8fafc',
+                border: '1px solid #e2e8f0',
+                borderRadius: '8px',
+                padding: '0.85rem 1rem',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.6rem' }}>
+                <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#334155' }}>
+                  Selected for Upload ({queuedFiles.length})
+                </span>
+                {isEdit && (
+                  <button
+                    type="button"
+                    disabled={uploadingDirectly}
+                    onClick={handleInstantUpload}
+                    style={{
+                      background: '#4f46e5',
+                      color: '#fff',
+                      border: 'none',
+                      padding: '0.35rem 0.75rem',
+                      borderRadius: '5px',
+                      fontSize: '0.75rem',
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {uploadingDirectly ? 'Uploading...' : '⚡ Upload Now'}
+                  </button>
+                )}
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.85rem' }}>
+                {queuedFiles.map((q, qIdx) => {
+                  const roleIdx = existingImages.length + qIdx;
+                  return (
+                    <div
+                      key={q.id}
                       style={{
-                        background: '#fef2f2',
-                        color: '#dc2626',
-                        border: '1px solid #fecaca',
-                        padding: '0.3rem 0.65rem',
-                        borderRadius: '4px',
-                        fontSize: '0.75rem',
-                        fontWeight: 600,
-                        cursor: 'pointer',
+                        position: 'relative',
+                        width: '120px',
+                        height: '120px',
+                        borderRadius: '8px',
+                        border: '1px dashed #6366f1',
+                        overflow: 'hidden',
+                        background: '#ffffff',
                       }}
                     >
-                      Cancel / Choose Other
-                    </button>
-                  </div>
-                </div>
+                      <img
+                        src={q.preview}
+                        alt={`Queued ${q.name}`}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                      <span
+                        style={{
+                          position: 'absolute',
+                          bottom: '4px',
+                          left: '4px',
+                          background: roleIdx === 0 ? 'rgba(79, 70, 229, 0.92)' : 'rgba(30, 41, 59, 0.85)',
+                          color: '#ffffff',
+                          fontSize: '0.625rem',
+                          padding: '0.15rem 0.4rem',
+                          borderRadius: '4px',
+                          fontWeight: 600,
+                        }}
+                      >
+                        {roleIdx === 0 ? '★ Cover' : `Photo ${roleIdx + 1}`}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveQueuedFile(q.id)}
+                        title="Remove photo"
+                        aria-label={`Remove photo ${q.name}`}
+                        style={{
+                          position: 'absolute',
+                          top: '4px',
+                          right: '4px',
+                          background: 'rgba(239, 68, 68, 0.95)',
+                          color: '#ffffff',
+                          border: 'none',
+                          borderRadius: '6px',
+                          width: '28px',
+                          height: '28px',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '0.8rem',
+                          fontWeight: 700,
+                          boxShadow: '0 1px 2px rgba(0,0,0,0.2)',
+                        }}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  );
+                })}
               </div>
-            ) : (
-              <div>
-                <input
-                  id="image-file-input"
-                  type="file"
-                  accept="image/jpeg,image/png,image/webp,image/gif"
-                  onChange={handleFileSelect}
-                  style={{ display: 'none' }}
-                />
-                <label
-                  htmlFor="image-file-input"
-                  style={{
-                    display: 'inline-block',
-                    background: '#ffffff',
-                    border: '1px solid #cbd5e1',
-                    padding: '0.5rem 1rem',
-                    borderRadius: '6px',
-                    fontSize: '0.825rem',
-                    fontWeight: 600,
-                    color: '#334155',
-                    cursor: 'pointer',
-                    boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
-                  }}
-                >
-                  📷 Choose Image to Upload
-                </label>
-                <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.75rem', color: '#64748b' }}>
-                  Select an image from your computer to store via Cloudinary or local media storage.
-                </p>
-              </div>
-            )}
+            </div>
+          )}
 
-            {errors.image && (
-              <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.75rem', color: '#ef4444' }}>{errors.image}</p>
-            )}
-          </div>
-
-          {/* Optional: Direct Image URL entry */}
-          <div>
-            <label
-              htmlFor="direct-image-url"
-              style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: '#64748b', marginBottom: '0.3rem' }}
+          {/* Upload Dropzone / Picker if slots available */}
+          {existingImages.length + queuedFiles.length < MAX_IMAGES ? (
+            <div
+              style={{
+                border: '2px dashed #cbd5e1',
+                borderRadius: '8px',
+                padding: '1.25rem',
+                textAlign: 'center',
+                background: '#f8fafc',
+                marginBottom: '1rem',
+              }}
             >
-              Or add image by URL:
-            </label>
-            <div style={{ display: 'flex', gap: '0.5rem' }}>
               <input
-                id="direct-image-url"
-                type="url"
-                placeholder="https://images.unsplash.com/..."
-                value={directImageUrl}
-                onChange={(e) => setDirectImageUrl(e.target.value)}
-                style={{
-                  flex: 1,
-                  padding: '0.45rem 0.75rem',
-                  borderRadius: '6px',
-                  border: '1px solid #cbd5e1',
-                  fontSize: '0.8rem',
-                  outline: 'none',
-                }}
+                id="image-file-input"
+                type="file"
+                multiple
+                accept="image/jpeg,image/png,image/webp,image/gif"
+                onChange={handleFileSelect}
+                style={{ display: 'none' }}
               />
-              <button
-                type="button"
-                onClick={handleAddDirectImageUrl}
+              <label
+                htmlFor="image-file-input"
                 style={{
-                  background: '#f1f5f9',
+                  display: 'inline-block',
+                  background: '#ffffff',
                   border: '1px solid #cbd5e1',
-                  padding: '0.45rem 0.8rem',
+                  padding: '0.55rem 1.15rem',
                   borderRadius: '6px',
-                  fontSize: '0.8rem',
+                  fontSize: '0.825rem',
                   fontWeight: 600,
-                  cursor: 'pointer',
                   color: '#334155',
+                  cursor: 'pointer',
+                  boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
                 }}
               >
-                + Add URL
-              </button>
+                📷 Add Photos ({MAX_IMAGES - (existingImages.length + queuedFiles.length)} slots left)
+              </label>
+              <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.75rem', color: '#64748b' }}>
+                Select up to {MAX_IMAGES - (existingImages.length + queuedFiles.length)} photo file(s) (JPG, PNG, WebP up to 5MB).
+              </p>
             </div>
-          </div>
+          ) : (
+            <div
+              style={{
+                padding: '0.75rem 1rem',
+                borderRadius: '8px',
+                background: '#f0fdf4',
+                border: '1px solid #bbf7d0',
+                color: '#166534',
+                fontSize: '0.8rem',
+                fontWeight: 500,
+                marginBottom: '1rem',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+              }}
+            >
+              <span>✓</span>
+              <span>
+                Maximum 3 photos reached (1 Cover photo + 2 Gallery angles). Remove a photo above if you want to replace it.
+              </span>
+            </div>
+          )}
+
+          {errors.image && (
+            <p style={{ margin: '0 0 1rem 0', fontSize: '0.75rem', color: '#ef4444' }}>{errors.image}</p>
+          )}
+
+          {/* Optional: Direct Image URL entry (only when slots available) */}
+          {existingImages.length + queuedFiles.length < MAX_IMAGES && (
+            <div>
+              <label
+                htmlFor="direct-image-url"
+                style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: '#64748b', marginBottom: '0.3rem' }}
+              >
+                Or add image by URL:
+              </label>
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <input
+                  id="direct-image-url"
+                  type="url"
+                  placeholder="https://images.unsplash.com/..."
+                  value={directImageUrl}
+                  onChange={(e) => setDirectImageUrl(e.target.value)}
+                  style={{
+                    flex: 1,
+                    padding: '0.45rem 0.75rem',
+                    borderRadius: '6px',
+                    border: '1px solid #cbd5e1',
+                    fontSize: '0.8rem',
+                    outline: 'none',
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={handleAddDirectImageUrl}
+                  style={{
+                    background: '#f1f5f9',
+                    border: '1px solid #cbd5e1',
+                    padding: '0.45rem 0.8rem',
+                    borderRadius: '6px',
+                    fontSize: '0.8rem',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    color: '#334155',
+                  }}
+                >
+                  + Add URL
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Section 3: Repeatable Specifications */}

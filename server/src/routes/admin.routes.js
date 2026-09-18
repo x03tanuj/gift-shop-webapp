@@ -35,7 +35,7 @@ router.get('/products/:id', getAdminProductById);
 router.post('/products', createProduct);
 router.put('/products/:id', updateProduct);
 router.delete('/products/:id', deleteProduct);
-router.post('/products/:id/images', upload.single('image'), uploadProductImage);
+router.post('/products/:id/images', upload.any(), uploadProductImage);
 
 // Category CRUD
 router.get('/categories', getAdminCategories);
