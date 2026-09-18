@@ -9,6 +9,7 @@ import Products from './pages/Products.jsx';
 import ProductForm from './pages/ProductForm.jsx';
 import Categories from './pages/Categories.jsx';
 import CategoryForm from './pages/CategoryForm.jsx';
+import Settings from './pages/Settings.jsx';
 
 function App() {
   return (
@@ -97,6 +98,18 @@ function App() {
               <ProtectedRoute>
                 <AdminLayout>
                   <CategoryForm />
+                </AdminLayout>
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Store Settings */}
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <AdminLayout>
+                  <Settings />
                 </AdminLayout>
               </ProtectedRoute>
             }

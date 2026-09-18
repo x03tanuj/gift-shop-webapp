@@ -11,6 +11,7 @@ export default function AdminLayout({ children }) {
     { label: '📦 Products', path: '/products' },
     { label: '🏷️ Categories', path: '/categories' },
     { label: '➕ New Product', path: '/products/new' },
+    { label: '⚙️ Settings', path: '/settings' },
   ];
 
   const storefrontUrl =

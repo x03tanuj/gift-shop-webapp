@@ -29,6 +29,10 @@ export default function CategoryGrid() {
     fetchCats();
   }, []);
 
+  if (!loading && categories.length === 0) {
+    return null;
+  }
+
   return (
     <section className="py-4" aria-labelledby="category-grid-heading">
       <div className="mb-3.5 text-center sm:text-left">

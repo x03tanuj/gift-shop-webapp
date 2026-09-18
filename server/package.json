@@ -9,6 +9,7 @@
     "dev": "nodemon server.js",
     "seed": "node src/utils/seed.js",
     "seed:owner": "node src/utils/seedOwner.js",
+    "clear:demo": "node src/utils/clearDemoData.js",
     "test": "node test-health.js"
   },
   "dependencies": {

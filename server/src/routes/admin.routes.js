@@ -16,6 +16,7 @@ import {
   deleteCategory,
   uploadCategoryImage,
 } from '../controllers/admin.category.controller.js';
+import { getSettings, updateSettings } from '../controllers/settings.controller.js';
 import { authenticate } from '../middleware/authenticate.js';
 import { authorize } from '../middleware/authorize.js';
 import { upload } from '../utils/upload.js';
@@ -43,5 +44,9 @@ router.post('/categories', createCategory);
 router.put('/categories/:id', updateCategory);
 router.delete('/categories/:id', deleteCategory);
 router.post('/categories/:id/image', upload.single('image'), uploadCategoryImage);
+
+// Store Settings
+router.get('/settings', getSettings);
+router.put('/settings', updateSettings);
 
 export default router;

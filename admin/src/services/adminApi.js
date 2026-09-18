@@ -113,6 +113,14 @@ export const adminApi = {
       body: formData,
     });
   },
+
+  // Settings
+  getSettings: () => request('/admin/settings'),
+  updateSettings: (settingsData) =>
+    request('/admin/settings', {
+      method: 'PUT',
+      body: JSON.stringify(settingsData),
+    }),
 };
 
 export default adminApi;

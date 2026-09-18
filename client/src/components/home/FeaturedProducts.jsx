@@ -31,6 +31,10 @@ export default function FeaturedProducts() {
     fetchFeatured();
   }, []);
 
+  if (!loading && featured.length === 0) {
+    return null;
+  }
+
   return (
     <section className="py-4" aria-labelledby="featured-products-heading">
       <div className="flex items-end justify-between mb-4">

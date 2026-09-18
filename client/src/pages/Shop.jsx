@@ -18,7 +18,6 @@ export default function Shop() {
   // Read state from URL query parameters
   const searchParam = searchParams.get('search') || '';
   const categoryParam = searchParams.get('category') || 'all';
-  const occasionParam = searchParams.get('occasion') || 'all';
   const sortParam = searchParams.get('sort') || 'featured';
 
   // Local state for debounced search input
@@ -57,7 +56,7 @@ export default function Shop() {
     };
   }, []);
 
-  // 2. Fetch Products whenever URL search, category, occasion, or sort changes
+  // 2. Fetch Products whenever URL search, category, or sort changes
   useEffect(() => {
     let isMounted = true;
 
@@ -79,10 +78,6 @@ export default function Shop() {
 
         if (categoryParam !== 'all') {
           params.category = categoryParam;
-        }
-
-        if (occasionParam !== 'all') {
-          params.occasion = occasionParam;
         }
 
         const data = await getProducts(params);
@@ -174,10 +169,6 @@ export default function Shop() {
 
       if (categoryParam !== 'all') {
         params.category = categoryParam;
-      }
-
-      if (occasionParam !== 'all') {
-        params.occasion = occasionParam;
       }
 
       const data = await getProducts(params);
@@ -400,35 +391,38 @@ export default function Shop() {
       {!loading && !error && products.length === 0 && (
         <div className="text-center py-12 px-4 bg-white rounded-2xl border border-brand-gold/30 shadow-xs max-w-md mx-auto my-6">
           <div className="w-12 h-12 rounded-full bg-brand-sand text-brand-burgundy flex items-center justify-center mx-auto mb-3">
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="1.75"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
+            <span className="text-2xl">🛍️</span>
           </div>
           <h3 className="font-serif text-lg font-bold text-brand-charcoal mb-1">
-            No Artisanal Gifts Found
+            {searchParam || categoryParam !== 'all'
+              ? 'No Creations Found'
+              : 'New Curations Coming Soon'}
           </h3>
           <p className="text-xs text-brand-muted leading-relaxed mb-4">
-            We could not find any creations matching your search or filters. Try
-            clearing filters or exploring our full catalog.
+            {searchParam || categoryParam !== 'all'
+              ? 'We could not find any creations matching your search or filter. Try clearing filters.'
+              : 'Our boutique collection is currently being curated with new artisanal arrivals. Have a custom order or need immediate assistance? Chat with us directly on WhatsApp!'}
           </p>
-          <div className="max-w-[200px] mx-auto">
-            <Button
-              variant="primary"
-              onClick={clearAllFilters}
-              className="text-xs py-2"
-            >
-              Clear All Filters
-            </Button>
+          <div className="max-w-[220px] mx-auto">
+            {searchParam || categoryParam !== 'all' ? (
+              <Button
+                variant="primary"
+                onClick={clearAllFilters}
+                className="text-xs py-2"
+              >
+                Clear All Filters
+              </Button>
+            ) : (
+              <Button
+                variant="primary"
+                href="https://wa.me/916377027248?text=Hello%20Shive%20Shakti%20Enterprises,%20I%20would%20like%20to%20enquire%20about%20your%20products"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs py-2"
+              >
+                Chat on WhatsApp
+              </Button>
+            )}
           </div>
         </div>
       )}
