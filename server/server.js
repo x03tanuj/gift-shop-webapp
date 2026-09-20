@@ -70,6 +70,21 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
+
+  // Prevent Render free-tier idle shutdown by self-pinging every 10 minutes
+  const externalUrl = process.env.RENDER_EXTERNAL_URL || process.env.SERVER_URL;
+  if (externalUrl) {
+    const PING_INTERVAL = 10 * 60 * 1000; // 10 minutes
+    setInterval(async () => {
+      try {
+        const pingUrl = `${externalUrl.replace(/\/$/, '')}/api/health`;
+        await fetch(pingUrl);
+        console.log(`[Keep-Alive] Pinged ${pingUrl} to prevent inactivity shutdown`);
+      } catch (err) {
+        console.warn('[Keep-Alive] Self-ping failed:', err.message);
+      }
+    }, PING_INTERVAL);
+  }
 });
 
 export default app;

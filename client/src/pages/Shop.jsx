@@ -4,12 +4,12 @@ import ProductCard from '../components/ui/ProductCard.jsx';
 import Button from '../components/ui/Button.jsx';
 import { getProducts } from '../services/products.js';
 
-const ITEMS_PER_PAGE = 12;
+const ITEMS_PER_PAGE = 3;
 
 /**
  * Direct Products Catalog Page
  * Serves as the primary storefront landing view.
- * Displays all products with debounced search, live sorting, pagination, and direct WhatsApp enquiry.
+ * Displays 3 products at a time with click-to-show-more pagination, debounced search, and live sorting.
  */
 export default function Shop() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -269,7 +269,7 @@ export default function Shop() {
       {/* Loading Skeletons */}
       {loading && !error && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          {[1, 2, 3, 4, 5, 6].map((i) => (
+          {[1, 2, 3].map((i) => (
             <div
               key={i}
               className="bg-white rounded-2xl border border-brand-gold/20 p-4 flex flex-col space-y-3 animate-pulse"
@@ -342,21 +342,28 @@ export default function Shop() {
         </div>
       )}
 
-      {/* Server Pagination ("Load More") */}
+      {/* Server Pagination ("Show More Products" - 3 by 3) */}
       {!loading && hasMore && (
-        <div className="text-center pt-4 pb-2">
+        <div className="text-center pt-6 pb-2">
           <div className="max-w-xs mx-auto">
             <Button
               variant="secondary"
               onClick={handleLoadMore}
               disabled={loadingMore}
-              className="text-xs py-2.5"
+              className="text-xs py-3 w-full font-semibold shadow-xs"
             >
               {loadingMore
-                ? 'Loading More Creations...'
-                : `Load More Pieces (${totalCount - products.length} remaining)`}
+                ? 'Loading Next 3 Creations...'
+                : `Show More Products (${totalCount - products.length} remaining)`}
             </Button>
           </div>
+        </div>
+      )}
+
+      {/* All creations displayed indicator */}
+      {!loading && !hasMore && products.length > 3 && (
+        <div className="text-center pt-4 pb-2 text-xs text-brand-muted">
+          All {totalCount} creations displayed
         </div>
       )}
     </div>

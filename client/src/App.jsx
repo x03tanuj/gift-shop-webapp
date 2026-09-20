@@ -3,8 +3,12 @@ import { Routes, Route, Link } from 'react-router-dom';
 import Layout from './components/layout/Layout.jsx';
 import Shop from './pages/Shop.jsx';
 import ProductDetails from './pages/ProductDetails.jsx';
+import useServerKeepAlive from './hooks/useServerKeepAlive.js';
 
 function App() {
+  // Periodically pings backend /health every 9 minutes to prevent Render free-tier idle shutdown
+  useServerKeepAlive();
+
   return (
     <Layout>
       <Routes>
