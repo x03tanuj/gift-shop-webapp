@@ -104,7 +104,8 @@ export const getProducts = async (req, res, next) => {
       .populate('category', 'name slug description image count')
       .sort(sortQuery)
       .skip(skip)
-      .limit(limit);
+      .limit(limit)
+      .lean();
 
     const pages = Math.ceil(total / limit);
 
@@ -121,6 +122,8 @@ export const getProducts = async (req, res, next) => {
     }
     serverProductsCache.set(cacheKey, { data: payload, timestamp: Date.now() });
 
+    // Enable browser and edge HTTP caching
+    res.set('Cache-Control', 'public, max-age=60, stale-while-revalidate=120');
     return res.json(payload);
   } catch (error) {
     next(error);
@@ -136,8 +139,10 @@ export const getFeaturedProducts = async (req, res, next) => {
     const products = await Product.find({ featured: true })
       .populate('category', 'name slug description')
       .sort({ createdAt: -1 })
-      .limit(4);
+      .limit(4)
+      .lean();
 
+    res.set('Cache-Control', 'public, max-age=180, stale-while-revalidate=300');
     return res.json({ products });
   } catch (error) {
     next(error);
@@ -159,21 +164,23 @@ export const getProductBySlug = async (req, res, next) => {
 
     // Check if slug is a valid MongoDB ObjectId
     if (mongoose.Types.ObjectId.isValid(slug)) {
-      product = await Product.findById(slug).populate('category', 'name slug description image count');
+      product = await Product.findById(slug)
+        .populate('category', 'name slug description image count')
+        .lean();
     }
 
     // If not found by ID, look up by slug
     if (!product) {
-      product = await Product.findOne({ slug: slug.trim().toLowerCase() }).populate(
-        'category',
-        'name slug description image count'
-      );
+      product = await Product.findOne({ slug: slug.trim().toLowerCase() })
+        .populate('category', 'name slug description image count')
+        .lean();
     }
 
     if (!product) {
       return res.status(404).json({ error: { message: `Product '${slug}' was not found.` } });
     }
 
+    res.set('Cache-Control', 'public, max-age=120, stale-while-revalidate=300');
     return res.json({ product });
   } catch (error) {
     next(error);
@@ -194,10 +201,10 @@ export const getRelatedProducts = async (req, res, next) => {
     // Find current product first
     let current = null;
     if (mongoose.Types.ObjectId.isValid(id)) {
-      current = await Product.findById(id);
+      current = await Product.findById(id).lean();
     }
     if (!current) {
-      current = await Product.findOne({ slug: id.trim().toLowerCase() });
+      current = await Product.findOne({ slug: id.trim().toLowerCase() }).lean();
     }
 
     if (!current) {
@@ -210,8 +217,10 @@ export const getRelatedProducts = async (req, res, next) => {
       _id: { $ne: current._id },
     })
       .populate('category', 'name slug description')
-      .limit(4);
+      .limit(4)
+      .lean();
 
+    res.set('Cache-Control', 'public, max-age=180, stale-while-revalidate=300');
     return res.json({ related });
   } catch (error) {
     next(error);

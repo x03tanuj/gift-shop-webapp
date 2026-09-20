@@ -11,5 +11,16 @@ export default defineConfig(({ mode }) => {
     server: {
       port,
     },
+    build: {
+      target: 'esnext',
+      cssCodeSplit: true,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vendor: ['react', 'react-dom', 'react-router-dom'],
+          },
+        },
+      },
+    },
   };
 });
