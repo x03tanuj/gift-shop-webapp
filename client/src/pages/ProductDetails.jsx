@@ -5,6 +5,7 @@ import RelatedProducts from '../components/product/RelatedProducts.jsx';
 import { getProductBySlug } from '../services/products.js';
 import { buildWhatsAppProductLink } from '../utils/whatsappLink.js';
 import { buildCallLink, getPhoneNumber } from '../utils/callLink.js';
+import { optimizeCloudinaryUrl } from '../utils/imageOptimizer.js';
 
 /**
  * Product Details Page (/shop/:slug)
@@ -210,9 +211,10 @@ export default function ProductDetails() {
           {/* Main Selected Image */}
           <div className="relative aspect-[4/3] sm:aspect-square bg-stone-100 rounded-2xl overflow-hidden border border-brand-gold/30 shadow-luxury group">
             <img
-              src={currentImage}
+              src={optimizeCloudinaryUrl(currentImage, { width: 700 })}
               alt={product.name}
               className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+              decoding="async"
               onError={(e) => {
                 e.currentTarget.src = 'https://placehold.co/600x600/f5f5f4/78350f?text=Handcrafted+Creation';
               }}
@@ -269,9 +271,11 @@ export default function ProductDetails() {
                     }`}
                   >
                     <img
-                      src={imgUrl}
+                      src={optimizeCloudinaryUrl(imgUrl, { width: 120 })}
                       alt={`${product.name} angle ${idx + 1}`}
                       className="w-full h-full object-cover"
+                      loading="lazy"
+                      decoding="async"
                       onError={(e) => {
                         e.currentTarget.src = 'https://placehold.co/100x100/f5f5f4/78350f?text=Preview';
                       }}

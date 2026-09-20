@@ -9,12 +9,22 @@ function escapeRegex(str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
+// Lightweight in-memory cache to conserve MongoDB Atlas M0 free tier reads & connections
+const serverProductsCache = new Map();
+const CACHE_TTL_MS = 60 * 1000; // 60 seconds
+
 /**
  * GET /api/products
  * Query options: search, category, sort, page, limit
  */
 export const getProducts = async (req, res, next) => {
   try {
+    const cacheKey = req.originalUrl || JSON.stringify(req.query);
+    const cached = serverProductsCache.get(cacheKey);
+    if (cached && Date.now() - cached.timestamp < CACHE_TTL_MS) {
+      return res.json(cached.data);
+    }
+
     const { search, category, sort, occasion } = req.query;
 
     // Validate page & limit
@@ -98,13 +108,20 @@ export const getProducts = async (req, res, next) => {
 
     const pages = Math.ceil(total / limit);
 
-    return res.json({
+    const payload = {
       products,
       total,
       page,
       pages,
       hasMore: page < pages,
-    });
+    };
+
+    if (serverProductsCache.size > 100) {
+      serverProductsCache.clear();
+    }
+    serverProductsCache.set(cacheKey, { data: payload, timestamp: Date.now() });
+
+    return res.json(payload);
   } catch (error) {
     next(error);
   }

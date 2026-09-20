@@ -18,9 +18,10 @@ export default function Shop() {
   const searchParam = searchParams.get('search') || '';
   const sortParam = searchParams.get('sort') || 'featured';
 
-  // Local state for debounced search input
+  // Local state for debounced search input & click throttling
   const [searchInput, setSearchInput] = useState(searchParam);
   const debounceTimerRef = useRef(null);
+  const loadMoreCooldownRef = useRef(0);
 
   // Products state driven by backend API
   const [products, setProducts] = useState([]);
@@ -81,7 +82,7 @@ export default function Shop() {
     };
   }, [searchParam, sortParam]);
 
-  // Handle Debounced Search Input Change
+  // Handle Debounced Search Input Change (500ms to save free tier requests)
   const handleSearchChange = (val) => {
     setSearchInput(val);
     if (debounceTimerRef.current) {
@@ -101,7 +102,7 @@ export default function Shop() {
         },
         { replace: true }
       );
-    }, 300);
+    }, 500);
   };
 
   // Sync state changes with URL query parameters
@@ -125,9 +126,11 @@ export default function Shop() {
     setSearchParams({}, { replace: true });
   };
 
-  // Load More Handler (API Pagination)
+  // Load More Handler with click cooldown to prevent spamming the backend
   const handleLoadMore = async () => {
-    if (loadingMore || !hasMore) return;
+    const now = Date.now();
+    if (loadingMore || !hasMore || now - loadMoreCooldownRef.current < 800) return;
+    loadMoreCooldownRef.current = now;
 
     try {
       setLoadingMore(true);

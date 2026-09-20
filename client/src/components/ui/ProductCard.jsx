@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { buildWhatsAppProductLink } from '../../utils/whatsappLink.js';
+import { optimizeCloudinaryUrl } from '../../utils/imageOptimizer.js';
 
 /**
  * Presentational ProductCard component.
@@ -47,10 +48,11 @@ export default function ProductCard({
         aria-label={`View details for ${name}`}
       >
         <img
-          src={image}
+          src={optimizeCloudinaryUrl(image, { width: 450 })}
           alt={name}
           className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
+          decoding="async"
           onError={(e) => {
             e.currentTarget.src = 'https://placehold.co/400x300/f5f5f4/78350f?text=Handcrafted+Creation';
           }}
