@@ -40,29 +40,26 @@ export default function Footer() {
           <ul className="space-y-1.5 text-xs text-stone-300">
             <li>
               <Link to="/" className="hover:text-white transition-colors">
-                Home &amp; Curation
+                All Handcrafted Creations
               </Link>
             </li>
             <li>
-              <Link to="/shop" className="hover:text-white transition-colors">
-                Festive Catalog
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/categories"
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="hover:text-white transition-colors"
               >
-                Occasion &amp; Wedding Hampers
-              </Link>
+                Custom &amp; Bulk Orders
+              </a>
             </li>
             <li>
-              <Link
-                to="/contact"
+              <a
+                href={callUrl}
                 className="hover:text-white transition-colors"
               >
-                Corporate Bespoke Orders
-              </Link>
+                Direct Call Consultation
+              </a>
             </li>
           </ul>
         </div>

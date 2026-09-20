@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { buildWhatsAppGeneralLink } from '../../utils/whatsappLink.js';
 
 /**
@@ -9,17 +9,13 @@ import { buildWhatsAppGeneralLink } from '../../utils/whatsappLink.js';
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
 
   const whatsappUrl = buildWhatsAppGeneralLink(
     'Hello Shive Shakti Enterprises, I would like to enquire about your artisanal gifts.'
   );
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Shop', path: '/shop' },
-    { name: 'Categories', path: '/shop' },
-    { name: 'Contact', path: '/shop' },
+    { name: 'All Products', path: '/' },
   ];
 
   return (
@@ -27,7 +23,7 @@ export default function Header() {
       {/* Top Announcement Ribbon */}
       <div className="bg-brand-burgundy text-[#FDFBF7] text-[11px] tracking-widest font-semibold uppercase py-1.5 px-4 text-center flex items-center justify-center gap-2">
         <span className="inline-block w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse"></span>
-        <span>Handcrafted Across India • Instant WhatsApp Order Help</span>
+        <span>Handcrafted Across India • Instant WhatsApp Orders &amp; Enquiries</span>
       </div>
 
       {/* Main Header Bar */}
@@ -52,7 +48,7 @@ export default function Header() {
           aria-label="Desktop Navigation"
         >
           {navLinks.map((link) => {
-            const isActive = location.pathname === link.path && link.name !== 'Categories' && link.name !== 'Contact';
+            const isActive = location.pathname === link.path;
             return (
               <Link
                 key={link.name}
@@ -70,29 +66,7 @@ export default function Header() {
         </nav>
 
         {/* Header Right Actions */}
-        <div className="flex items-center gap-1.5 sm:gap-2">
-          {/* Search Trigger (Navigates to /shop) */}
-          <button
-            type="button"
-            aria-label="Search catalog"
-            className="w-11 h-11 rounded-full flex items-center justify-center text-brand-charcoal hover:bg-brand-gold/15 transition-colors cursor-pointer"
-            onClick={() => navigate('/shop')}
-          >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
-          </button>
-
+        <div className="flex items-center gap-2">
           {/* Prominent WhatsApp CTA Button (min-h-[44px]) */}
           <a
             href={whatsappUrl}
@@ -160,45 +134,17 @@ export default function Header() {
               {link.name}
             </Link>
           ))}
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block py-2.5 px-2 text-xs font-semibold uppercase tracking-wider text-[#25D366] hover:bg-brand-sand/50 rounded-lg min-h-[44px] flex items-center"
+          >
+            WhatsApp Support
+          </a>
         </nav>
       )}
-
-      {/* Horizontal Category Filter Pills (min 40px touch height) */}
-      <nav
-        aria-label="Quick Categories"
-        className="flex items-center gap-2 px-4 pb-2.5 pt-1 overflow-x-auto no-scrollbar max-w-6xl mx-auto"
-      >
-        <Link
-          to="/shop"
-          className="px-4 py-2 min-h-[38px] text-xs font-semibold rounded-full bg-brand-burgundy text-white whitespace-nowrap shadow-xs inline-flex items-center"
-        >
-          All Hampers
-        </Link>
-        <Link
-          to="/shop?category=brass-bell-metal"
-          className="px-3.5 py-2 min-h-[38px] text-xs font-medium rounded-full bg-brand-sand text-brand-muted hover:bg-stone-200 whitespace-nowrap transition-colors inline-flex items-center"
-        >
-          Festive Diyas
-        </Link>
-        <Link
-          to="/shop?category=ayurvedic-copperware"
-          className="px-3.5 py-2 min-h-[38px] text-xs font-medium rounded-full bg-brand-sand text-brand-muted hover:bg-stone-200 whitespace-nowrap transition-colors inline-flex items-center"
-        >
-          Pure Copper
-        </Link>
-        <Link
-          to="/shop?category=silk-velvet"
-          className="px-3.5 py-2 min-h-[38px] text-xs font-medium rounded-full bg-brand-sand text-brand-muted hover:bg-stone-200 whitespace-nowrap transition-colors inline-flex items-center"
-        >
-          Silk Keepsakes
-        </Link>
-        <Link
-          to="/shop?occasion=corporate"
-          className="px-3.5 py-2 min-h-[38px] text-xs font-medium rounded-full bg-brand-sand text-brand-muted hover:bg-stone-200 whitespace-nowrap transition-colors inline-flex items-center"
-        >
-          Corporate Gifting
-        </Link>
-      </nav>
     </header>
   );
 }

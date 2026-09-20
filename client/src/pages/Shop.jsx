@@ -3,31 +3,26 @@ import { useSearchParams } from 'react-router-dom';
 import ProductCard from '../components/ui/ProductCard.jsx';
 import Button from '../components/ui/Button.jsx';
 import { getProducts } from '../services/products.js';
-import { getCategories } from '../services/categories.js';
 
-const ITEMS_PER_PAGE = 6;
+const ITEMS_PER_PAGE = 12;
 
 /**
- * Shop Page (/shop)
- * Complete server-driven catalog with real query params, debounced search,
- * dynamic categories, live sorting, pagination, and resilient error recovery.
+ * Direct Products Catalog Page
+ * Serves as the primary storefront landing view.
+ * Displays all products with debounced search, live sorting, pagination, and direct WhatsApp enquiry.
  */
 export default function Shop() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Read state from URL query parameters
   const searchParam = searchParams.get('search') || '';
-  const categoryParam = searchParams.get('category') || 'all';
   const sortParam = searchParams.get('sort') || 'featured';
 
   // Local state for debounced search input
   const [searchInput, setSearchInput] = useState(searchParam);
   const debounceTimerRef = useRef(null);
 
-  // Categories list from API
-  const [categories, setCategories] = useState([]);
-
-  // Products state driven by real backend API
+  // Products state driven by backend API
   const [products, setProducts] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [page, setPage] = useState(1);
@@ -36,27 +31,12 @@ export default function Shop() {
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState(null);
 
-  // Sync search input if URL changes externally (e.g. back button or navigation)
+  // Sync search input if URL changes externally
   useEffect(() => {
     setSearchInput(searchParam);
   }, [searchParam]);
 
-  // 1. Fetch Categories once on mount
-  useEffect(() => {
-    let isMounted = true;
-    getCategories()
-      .then((data) => {
-        if (isMounted) setCategories(data || []);
-      })
-      .catch((err) => {
-        console.warn('Could not load categories:', err.message);
-      });
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-  // 2. Fetch Products whenever URL search, category, or sort changes
+  // Fetch Products whenever search or sort changes
   useEffect(() => {
     let isMounted = true;
 
@@ -74,10 +54,6 @@ export default function Shop() {
 
         if (searchParam.trim()) {
           params.search = searchParam.trim();
-        }
-
-        if (categoryParam !== 'all') {
-          params.category = categoryParam;
         }
 
         const data = await getProducts(params);
@@ -103,7 +79,7 @@ export default function Shop() {
     return () => {
       isMounted = false;
     };
-  }, [searchParam, categoryParam, occasionParam, sortParam]);
+  }, [searchParam, sortParam]);
 
   // Handle Debounced Search Input Change
   const handleSearchChange = (val) => {
@@ -149,7 +125,7 @@ export default function Shop() {
     setSearchParams({}, { replace: true });
   };
 
-  // Load More Handler (Real API Pagination)
+  // Load More Handler (API Pagination)
   const handleLoadMore = async () => {
     if (loadingMore || !hasMore) return;
 
@@ -165,10 +141,6 @@ export default function Shop() {
 
       if (searchParam.trim()) {
         params.search = searchParam.trim();
-      }
-
-      if (categoryParam !== 'all') {
-        params.category = categoryParam;
       }
 
       const data = await getProducts(params);
@@ -190,15 +162,14 @@ export default function Shop() {
           Artisanal Catalog
         </span>
         <h1 className="font-serif text-2xl sm:text-3xl font-bold text-brand-charcoal">
-          The Boutique Collection
+          All Handcrafted Creations
         </h1>
         <p className="text-xs sm:text-sm text-brand-muted mt-1 max-w-xl">
-          Browse curated Indian gifts, heirloom brassware, copper carafes, and
-          royal keepsake hampers.
+          Browse our curated Indian gifts, heirloom brassware, copper carafes, and royal keepsake hampers.
         </p>
       </div>
 
-      {/* Filter & Search Toolbar */}
+      {/* Search & Sort Toolbar */}
       <div className="bg-white rounded-xl p-3.5 sm:p-4 border border-brand-gold/30 shadow-xs space-y-3">
         {/* Search Bar */}
         <div className="relative">
@@ -238,39 +209,6 @@ export default function Shop() {
           )}
         </div>
 
-        {/* Category Filter Pills */}
-        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
-          <button
-            type="button"
-            onClick={() => updateParam('category', 'all')}
-            className={`px-4 py-2 min-h-[40px] text-xs font-semibold rounded-full whitespace-nowrap transition-colors cursor-pointer inline-flex items-center ${
-              categoryParam === 'all'
-                ? 'bg-brand-burgundy text-white shadow-xs'
-                : 'bg-brand-sand text-brand-muted hover:bg-stone-200'
-            }`}
-          >
-            All Pieces
-          </button>
-
-          {categories.map((cat) => {
-            const isSelected = categoryParam === cat.slug;
-            return (
-              <button
-                key={cat.id || cat._id}
-                type="button"
-                onClick={() => updateParam('category', cat.slug)}
-                className={`px-4 py-2 min-h-[40px] text-xs font-medium rounded-full whitespace-nowrap transition-colors cursor-pointer inline-flex items-center ${
-                  isSelected
-                    ? 'bg-brand-burgundy text-white font-semibold shadow-xs'
-                    : 'bg-brand-sand text-brand-muted hover:bg-stone-200'
-                }`}
-              >
-                {cat.name}
-              </button>
-            );
-          })}
-        </div>
-
         {/* Sort Dropdown & Status Bar */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pt-2 border-t border-stone-100">
           <div className="flex items-center gap-2 text-xs text-brand-muted">
@@ -308,26 +246,6 @@ export default function Shop() {
             </select>
           </div>
         </div>
-
-        {/* Active Occasion Filter Indicator */}
-        {occasionParam !== 'all' && (
-          <div className="pt-2 flex items-center gap-2 border-t border-stone-100">
-            <span className="text-[11px] text-brand-muted">
-              Occasion filter:
-            </span>
-            <span className="inline-flex items-center gap-1.5 bg-brand-gold/20 text-brand-burgundy border border-brand-gold/40 text-xs px-3 py-1 rounded-full font-medium">
-              <span className="capitalize">{occasionParam}</span>
-              <button
-                type="button"
-                onClick={() => updateParam('occasion', 'all')}
-                className="text-brand-burgundy hover:text-red-700 font-bold cursor-pointer ml-1"
-                aria-label="Remove occasion filter"
-              >
-                ✕
-              </button>
-            </span>
-          </div>
-        )}
       </div>
 
       {/* Error State Banner */}
@@ -339,7 +257,6 @@ export default function Shop() {
           <button
             type="button"
             onClick={() => {
-              // Trigger reload
               updateParam('_r', Date.now());
             }}
             className="inline-flex items-center justify-center bg-brand-burgundy text-white text-xs font-semibold px-4 py-2 rounded-lg hover:bg-brand-burgundy/90 transition-colors cursor-pointer"
@@ -394,23 +311,21 @@ export default function Shop() {
             <span className="text-2xl">🛍️</span>
           </div>
           <h3 className="font-serif text-lg font-bold text-brand-charcoal mb-1">
-            {searchParam || categoryParam !== 'all'
-              ? 'No Creations Found'
-              : 'New Curations Coming Soon'}
+            {searchParam ? 'No Creations Found' : 'New Curations Coming Soon'}
           </h3>
           <p className="text-xs text-brand-muted leading-relaxed mb-4">
-            {searchParam || categoryParam !== 'all'
-              ? 'We could not find any creations matching your search or filter. Try clearing filters.'
+            {searchParam
+              ? 'We could not find any creations matching your search. Try clearing filters.'
               : 'Our boutique collection is currently being curated with new artisanal arrivals. Have a custom order or need immediate assistance? Chat with us directly on WhatsApp!'}
           </p>
           <div className="max-w-[220px] mx-auto">
-            {searchParam || categoryParam !== 'all' ? (
+            {searchParam ? (
               <Button
                 variant="primary"
                 onClick={clearAllFilters}
                 className="text-xs py-2"
               >
-                Clear All Filters
+                Clear Search
               </Button>
             ) : (
               <Button
